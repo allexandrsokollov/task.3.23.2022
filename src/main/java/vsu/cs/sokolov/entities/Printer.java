@@ -36,14 +36,19 @@ public class Printer {
     }
 
     public void print() {
+
+        long stTime;
         int pageNumber = 1;
-        int fileNumber = 1;
 
         while (!queue.isEmpty()) {
-            Appointment temp = queue.poll();
 
+            Appointment temp = queue.poll();
+            stTime = System.currentTimeMillis();
+
+            System.out.println("file id  " + temp.getId());
             while (temp.getAmountOfPages() != 0) {
-                System.out.println("file " + fileNumber +  "  Printing page number: " + pageNumber++);
+
+                System.out.println("Printing page number: " + pageNumber++);
                 temp.decrementAmountOfPages();
 
                 try {
@@ -51,9 +56,12 @@ public class Printer {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
+
+
             }
+            System.out.println("it taken " + (System.currentTimeMillis() - stTime ) + " millis" );
+            stTime = 0;
             System.out.println();
-            fileNumber++;
             pageNumber = 1;
         }
     }

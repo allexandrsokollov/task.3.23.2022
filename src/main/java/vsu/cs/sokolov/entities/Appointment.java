@@ -12,8 +12,16 @@ public class Appointment {
         this.amountOfPages = amountOfPages;
         this.priority = priority;
         Random r = new Random();
-        receivingTime = 0;
-        id = r.nextInt();
+        this.receivingTime = receivingTime;
+        id = Math.abs(r.nextInt());
+    }
+
+    public Appointment(int amountOfPages, int priority) {
+        this.amountOfPages = amountOfPages;
+        this.priority = priority;
+        Random r = new Random();
+        this.receivingTime = 0;
+        id = Math.abs(r.nextInt());
     }
 
     @Override
