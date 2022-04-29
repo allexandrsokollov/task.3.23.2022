@@ -4,8 +4,13 @@ import java.util.PriorityQueue;
 
 public class Printer {
     private final PriorityQueue<Appointment> queue;
+    private long time;
+    private final long startTime;
 
     public Printer() {
+
+        time = 0;
+        startTime = System.currentTimeMillis();
 
         this.queue = new PriorityQueue<>((o2, o1) -> {
             if (o1.getPriority() > o2.getPriority()) {
@@ -25,13 +30,52 @@ public class Printer {
         });
     }
 
+    public long getTime() {
+        time = System.currentTimeMillis() - startTime;
+        return time;
+    }
+
     public void print() {
+        int pageNumber = 1;
+        int fileNumber = 1;
+
         while (!queue.isEmpty()) {
-            System.out.println(queue.poll());
+            Appointment temp = queue.poll();
+
+            while (temp.getAmountOfPages() != 0) {
+                System.out.println("file " + fileNumber +  "  Printing page number: " + pageNumber++);
+                temp.decrementAmountOfPages();
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            System.out.println();
+            fileNumber++;
+            pageNumber = 1;
         }
     }
 
     public void addAppointment(Appointment appointment) {
-        queue.add(appointment);
+        time = System.currentTimeMillis() - startTime;
+
+        long delay = time % 1000;
+        if (delay == 0) {
+            queue.add(appointment);
+        } else {
+            System.out.println("Gotta wait: " + delay + " millis");
+            try {
+                Thread.sleep(delay);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            time += delay;
+            appointment.setReceivingTime(time);
+            queue.add(appointment);
+            System.out.println("added");
+        }
+
     }
 }
