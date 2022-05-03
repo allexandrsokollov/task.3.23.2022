@@ -24,15 +24,16 @@ public class Main {
             switcher = in.nextInt();
             String path;
 
-            System.out.println("Enter file path:");
-
-            path = in.next();
-
-            System.out.println();
-
             ArrayList<Appointment> appointments = new ArrayList<>();
 
             if (switcher == 3) {
+
+                System.out.println("Enter file path:");
+
+                path = in.next();
+
+                System.out.println();
+
                 try {
                     FileHandler fh = new FileHandler(FileReader.getFileData(path));
                     appointments = fh.getListOfAppointments();
