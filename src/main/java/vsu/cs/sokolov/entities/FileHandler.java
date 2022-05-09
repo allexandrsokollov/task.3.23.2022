@@ -16,7 +16,7 @@ public class FileHandler {
 
         for (String str : strings) {
             scanner = new Scanner(str);
-            result.add(new Appointment(scanner.nextInt(), scanner.nextInt()));
+            result.add(new Appointment(scanner.nextInt(), scanner.nextInt(), scanner.nextInt(), scanner.nextInt()));
         }
         return result;
     }

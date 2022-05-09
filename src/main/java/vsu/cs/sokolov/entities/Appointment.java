@@ -1,41 +1,25 @@
 package vsu.cs.sokolov.entities;
 
-import java.util.Random;
-
 public class Appointment {
     private int amountOfPages;
     private int priority;
     private final int id;
     private long receivingTime;
 
-    public Appointment(int amountOfPages, int priority, int receivingTime) {
+    public Appointment(long receivingTime, int priority, int amountOfPages,  int id) {
         this.amountOfPages = amountOfPages;
         this.priority = priority;
-        Random r = new Random();
+        this.id = id;
         this.receivingTime = receivingTime;
-        id = Math.abs(r.nextInt());
-    }
-
-    public Appointment(int amountOfPages, int priority) {
-        this.amountOfPages = amountOfPages;
-        this.priority = priority;
-        Random r = new Random();
-        this.receivingTime = 0;
-        id = Math.abs(r.nextInt());
     }
 
     @Override
     public String toString() {
-        return "amountOfPages=" + amountOfPages + ", priority=" + priority + ", id=" + id +
-                ", receivingTime=" + receivingTime + '\n';
+        return "amountOfPages=" + amountOfPages + ", pri=" + priority + ", id=" + id +
+                ", Time=" + receivingTime + '\n';
     }
     public void setReceivingTime(long receivingTime) {
         this.receivingTime = receivingTime;
-    }
-
-    public static Appointment getRandomAppointment() {
-        Random r = new Random();
-        return new Appointment(r.nextInt(10), r.nextInt(10), 0);
     }
 
     public void decrementAmountOfPages() {
