@@ -9,7 +9,6 @@ public class Main {
         Printer printer = new Printer();
         printer.readDataFromFileToAdditionRow("C:\\Users\\Alexandr\\IdeaProjects\\task.3.23.2022\\appointments.txt");
 
-        System.out.println(printer.getAdditionRow());
 
     }
 }

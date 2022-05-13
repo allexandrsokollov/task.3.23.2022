@@ -12,19 +12,19 @@ public class Printer {
     public Printer() {
         time = 0;
 
-        Runnable runnable = () -> {
-            while (true) {
-                try {
-                    Thread.sleep(1000);
-                    time++;
-                    System.out.println(time);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        };
-        Thread thread = new Thread(runnable);
-        thread.start();
+//        Runnable runnable = () -> {
+//            while (true) {
+//                try {
+//                    Thread.sleep(1000);
+//                    time++;
+//                    System.out.println(time);
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+//        };
+//        Thread thread = new Thread(runnable);
+//        thread.start();
     }
 
 
@@ -35,7 +35,7 @@ public class Printer {
     public void readDataFromFileToAdditionRow(String filepath) {
         String[] fileData;
         try {
-            fileData = FileReader.getFileData("C:\\Users\\Alexandr\\IdeaProjects\\task.3.23.2022\\appointments.txt");
+            fileData = FileReader.getFileData(filepath);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -60,6 +60,10 @@ public class Printer {
 
         for (Appointment appointment : appointments) {
             additionRow.add(appointment);
+        }
+
+        while (additionRow.getHead() != null) {
+            System.out.println(additionRow.extract());
         }
     }
 

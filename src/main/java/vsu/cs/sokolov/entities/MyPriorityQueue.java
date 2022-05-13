@@ -6,11 +6,13 @@ public class MyPriorityQueue<T> {
 
     private final Comparator<T> comparator;
     private Node head;
+    private Node tail;
     private int amountOfElems;
 
     public MyPriorityQueue(Comparator<T> comparator) {
         this.comparator = comparator;
         head = null;
+        tail = null;
         amountOfElems = 0;
     }
 
@@ -18,32 +20,36 @@ public class MyPriorityQueue<T> {
         if (head == null) {
             head = new Node(value);
             head.next = null;
+            tail = head;
 
         } else {
-            Node newNode = new Node(value);
-            Node iter = head;
-
-            if (comparator.compare(newNode.value, head.value) > 0) {
-                Node temp = new Node(iter);
-                head = newNode;
-                head.setNext(temp);
-
-            } else {
-                while (iter.next != null && comparator.compare(newNode.value, iter.next.value) < 0) {
-                        iter = iter.next;
-                }
-
-                Node temp = null;
-                if (iter.next != null) {
-                    temp = new Node(iter.next);
-                }
-                iter.setNext(newNode);
-                iter.getNext().setNext(temp);
-            }
+            insertNode(new Node(value));
         }
         amountOfElems++;
     }
 
+    private void addLast(T value) {
+        Node newNode = new Node(value);
+        tail.setNext(newNode);
+        tail = tail.next;
+    }
+
+    private void insertNode(Node node) {
+        Node iter = head;
+
+        if (comparator.compare(head.value, node.value) < 0) {
+            node.setNext(head);
+            head = node;
+        } else {
+
+            while (iter.next != null && comparator.compare(iter.next.value, node.value) > 0) {
+                iter = iter.next;
+            }
+
+            node.setNext(iter.next);
+            iter.setNext(node);
+        }
+    }
     public T extract() {
         Node toReturn = new Node(head);
         head = head.next;
