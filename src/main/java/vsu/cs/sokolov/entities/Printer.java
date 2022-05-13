@@ -11,20 +11,15 @@ public class Printer {
 
     public Printer() {
         time = 0;
+    }
 
-//        Runnable runnable = () -> {
-//            while (true) {
-//                try {
-//                    Thread.sleep(1000);
-//                    time++;
-//                    System.out.println(time);
-//                } catch (InterruptedException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//        };
-//        Thread thread = new Thread(runnable);
-//        thread.start();
+    /**
+     * @return a String array.
+     * Every element of array has format like id: (id), time (time (sec))
+     */
+    public String[] getFinalTimeOfPrinting() {
+
+        return null;
     }
 
 
@@ -60,10 +55,6 @@ public class Printer {
 
         for (Appointment appointment : appointments) {
             additionRow.add(appointment);
-        }
-
-        while (additionRow.getHead() != null) {
-            System.out.println(additionRow.extract());
         }
     }
 
