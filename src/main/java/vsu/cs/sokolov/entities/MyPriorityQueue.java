@@ -2,7 +2,7 @@ package vsu.cs.sokolov.entities;
 
 import java.util.Comparator;
 
-public class MyPriorityQueue<T> {
+public class MyPriorityQueue<T>{
 
     private final Comparator<T> comparator;
     private Node head;
