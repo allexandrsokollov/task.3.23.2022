@@ -6,20 +6,35 @@ public class MyPriorityQueue<T>{
 
     private final Comparator<T> comparator;
     private Node head;
-
+    private Node tail;
+    private int amountOfNodes;
     public MyPriorityQueue(Comparator<T> comparator) {
         this.comparator = comparator;
         head = null;
+        tail = null;
+        amountOfNodes = 0;
+    }
+
+    public boolean isEmpty() {
+        return head == null;
     }
 
     public void add(T value) {
         if (head == null) {
             head = new Node(value);
+            tail = head;
             head.next = null;
+
+        } else if (comparator.compare(tail.value, value) >= 0) {
+            Node node = new Node(value);
+            tail.setNext(node);
+            tail = tail.next;
+            tail.setNext(null);
 
         } else {
             insertNode(new Node(value));
         }
+        amountOfNodes++;
     }
 
     private void insertNode(Node node) {
@@ -30,7 +45,7 @@ public class MyPriorityQueue<T>{
             head = node;
         } else {
 
-            while (iter.next != null && comparator.compare(iter.next.value, node.value) > 0) {
+            while (iter.next != null && comparator.compare(iter.next.value, node.value) >= 0) {
                 iter = iter.next;
             }
 
@@ -41,10 +56,8 @@ public class MyPriorityQueue<T>{
     public T extract() {
         Node toReturn = new Node(head);
         head = head.next;
+        amountOfNodes--;
         return toReturn.getValue();
-    }
-    public Node getHead() {
-        return head;
     }
     @Override
     public String toString() {

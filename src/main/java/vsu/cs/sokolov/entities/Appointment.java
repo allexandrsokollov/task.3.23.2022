@@ -1,5 +1,7 @@
 package vsu.cs.sokolov.entities;
 
+import java.util.Objects;
+
 public class Appointment {
     private final int amountOfPages;
     private final int priority;
@@ -11,6 +13,13 @@ public class Appointment {
         this.priority = priority;
         this.id = id;
         this.receivingTime = receivingTime;
+    }
+
+    public Appointment(Appointment appointment) {
+        this.amountOfPages = appointment.amountOfPages;
+        this.priority = appointment.priority;
+        this.id = appointment.id;
+        this.receivingTime = appointment.receivingTime;
     }
 
     @Override
@@ -29,6 +38,19 @@ public class Appointment {
 
     public int getPriority() {
         return priority;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Appointment that = (Appointment) o;
+        return amountOfPages == that.amountOfPages && priority == that.priority && id == that.id && receivingTime == that.receivingTime;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(amountOfPages, priority, id, receivingTime);
     }
 
     public int getId() {
