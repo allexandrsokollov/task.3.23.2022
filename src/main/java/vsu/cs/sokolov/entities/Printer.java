@@ -71,51 +71,70 @@ public class Printer {
         return results;
     }
 
-    /**
-     * @return a String array.
-     * Every element of array has format like id: (id), time (time (sec))
-     */
-//    public String[] getFinalTimeOfPrintingWithMyOwnQueue() {
-//        int time = 0;
-//
-//        for (Appointment appointment : appointments) {
-//            myPriorityQueue.add(appointment);
-//        }
-//
-//        String[] results = new String[appointments.size()];
-//
-//        int counter = 0;
-//        while  (myPriorityQueue.getHead() != null) {
-//            Appointment appointment = myPriorityQueue.extract();
-//            if (time < appointment.getReceivingTime()) {
-//                time = appointment.getReceivingTime();
-//            }
-//
-//            time += appointment.getAmountOfPages();
-//            results[counter++] = "id: " + appointment.getId() + "  Time: " + time;
-//        }
-//        return results;
-//    }
-//
-//    public String[] getFinalTimeOfPrintingWithSystemQueue() {
-//        int time = 0;
-//
-//        systemPriorityQueue.addAll(appointments);
-//
-//        String[] results = new String[appointments.size()];
-//
-//        int counter = 0;
-//        for (Appointment appointment : systemPriorityQueue) {
-//            if (time < appointment.getReceivingTime()) {
-//                time = appointment.getReceivingTime();
-//            }
-//
-//            time += appointment.getAmountOfPages();
-//            results[counter++] = "id: " + appointment.getId() + "  Time: " + time;
-//        }
-//        return results;
-//    }
+    public static HashMap<Integer, Integer> taskOnSystemQueue(Appointment[] appointments) {
 
+        HashMap<Integer, Integer> results = new HashMap<>();
+
+        Comparator<Appointment> comparator = (o1, o2) -> Integer.compare(o1.getReceivingTime(), o2.getReceivingTime());
+        PriorityQueue<Appointment> timeQueue = new PriorityQueue<>(comparator);
+
+        timeQueue.addAll(Arrays.asList(appointments));
+
+        Comparator<Appointment> printerComparator = (o1, o2) -> {
+            if (o1.getPriority() < o2.getPriority()) {
+                return 1;
+            } else if (o1.getPriority() > o2.getPriority()) {
+                return -1;
+            } else if (o1.getReceivingTime() > o2.getReceivingTime()) {
+                return 1;
+            } else if (o1.getReceivingTime() < o2.getReceivingTime()) {
+                return -1;
+            } else {
+                return Integer.compare(o1.getId(), o2.getId());
+            }
+        };
+
+        PriorityQueue<Appointment> printerQueue = new PriorityQueue<>(printerComparator);
+
+
+        int time = 0;
+        Appointment current = null;
+        while (!timeQueue.isEmpty()) {
+            if (current == null) {
+                current = timeQueue.poll();
+            }
+
+            if (time >= current.getReceivingTime() || (printerQueue.isEmpty())) {
+                if (printerQueue.isEmpty() && time < current.getReceivingTime()) {
+                    time = current.getReceivingTime();
+                }
+                printerQueue.add(new Appointment(current));
+                current = null;
+            } else {
+                Appointment temp = printerQueue.poll();
+                time += temp.getAmountOfPages();
+                results.put(temp.getId(), time);
+
+            }
+            if (timeQueue.isEmpty() && current != null) {
+                printerQueue.add(current);
+            }
+
+        }
+
+        while (!printerQueue.isEmpty()) {
+            Appointment temp = printerQueue.poll();
+
+            if (time < temp.getReceivingTime()) {
+                time = temp.getReceivingTime();
+            }
+            time += temp.getAmountOfPages();
+            results.put(temp.getId(), time);
+        }
+
+
+        return results;
+    }
 
     public static Appointment[] readDataFromFileToAdditionRow(String filepath) {
         String[] fileData;

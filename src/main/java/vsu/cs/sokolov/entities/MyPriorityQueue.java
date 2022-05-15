@@ -7,12 +7,10 @@ public class MyPriorityQueue<T>{
     private final Comparator<T> comparator;
     private Node head;
     private Node tail;
-    private int amountOfNodes;
     public MyPriorityQueue(Comparator<T> comparator) {
         this.comparator = comparator;
         head = null;
         tail = null;
-        amountOfNodes = 0;
     }
 
     public boolean isEmpty() {
@@ -34,7 +32,6 @@ public class MyPriorityQueue<T>{
         } else {
             insertNode(new Node(value));
         }
-        amountOfNodes++;
     }
 
     private void insertNode(Node node) {
@@ -56,7 +53,6 @@ public class MyPriorityQueue<T>{
     public T extract() {
         Node toReturn = new Node(head);
         head = head.next;
-        amountOfNodes--;
         return toReturn.getValue();
     }
     @Override
