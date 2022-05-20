@@ -75,7 +75,7 @@ public class Printer {
 
         HashMap<Integer, Integer> results = new HashMap<>();
 
-        Comparator<Appointment> comparator = (o1, o2) -> Integer.compare(o1.getReceivingTime(), o2.getReceivingTime());
+        Comparator<Appointment> comparator = Comparator.comparingInt(Appointment::getReceivingTime);
         PriorityQueue<Appointment> timeQueue = new PriorityQueue<>(comparator);
 
         timeQueue.addAll(Arrays.asList(appointments));
@@ -108,7 +108,7 @@ public class Printer {
                 if (printerQueue.isEmpty() && time < current.getReceivingTime()) {
                     time = current.getReceivingTime();
                 }
-                printerQueue.add(new Appointment(current));
+                printerQueue.add(current);
                 current = null;
             } else {
                 Appointment temp = printerQueue.poll();

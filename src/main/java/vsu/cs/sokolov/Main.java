@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
-        String path = "C:\\Users\\Alexandr\\IdeaProjects\\task.3.23.2022\\appointments.txt";
+        String path = args[0];
 
         HashMap<Integer, Integer> resultsOnMuQueue = Printer.taskOnMyQueue(
                 Printer.readDataFromFileToAdditionRow(path));
